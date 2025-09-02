@@ -68,8 +68,30 @@ public class App {
             }
         }
         
+        public void run() throws InterruptedException {
+            System.out.print("\033[2J"); // clear screen
+            while (true) {
+                for (int i = 0; i < width * height; i++) {
+                    buffer[i] = (char)backgroundASCIICode;
+                    zBuffer[i] = 0;
+                }
+
+                renderCube(20, -2 * 20);
+
+                System.out.print("\033[H"); // move cursor to top-left
+                for (int k = 0; k < width * height; k++) {
+                    System.out.print(k % width != 0 ? buffer[k] : "\n");
+                }
+
+                A += 0.05;
+                B += 0.05;
+                C += 0.01;
+
+                Thread.sleep(16);
+            }
+        }
     }
     public static void main(String[] args) throws Exception {
-        
+        new CubeRenderer().run();
     }
 }
