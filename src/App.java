@@ -33,7 +33,26 @@ public class App {
                   - j * (float)Math.sin(A) * (float)Math.cos(B)
                   + i * (float)Math.sin(B));
         }
-    
+        
+        void calculateForSurface(float cubeX, float cubeY, float cubeZ, char ch) {
+            float x = calculateX(cubeX, cubeY, cubeZ);
+            float y = calculateY(cubeX, cubeY, cubeZ);
+            float z = calculateZ(cubeX, cubeY, cubeZ) + distanceFromCam;
+
+            float ooz = 1 / z;
+
+            int xp = (int)(width / 2 + horizontalOffset + K1 * ooz * x * 2);
+            int yp = (int)(height / 2 + K1 * ooz * y);
+
+            int idx = xp + yp * width;
+            if (idx >= 0 && idx < width * height) {
+                if (ooz > zBuffer[idx]) {
+                    zBuffer[idx] = ooz;
+                    buffer[idx] = ch;
+                }
+            }
+        }
+        
     }
     public static void main(String[] args) throws Exception {
         
